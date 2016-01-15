@@ -1,0 +1,83 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class MainPanel extends JPanel implements ActionListener
+{
+  
+  JTextField weightField;
+  JTextField ageField;
+  JTextField creatinineField;
+  JComboBox weightBox;
+  JComboBox sexBox;
+  JComboBox creatinineBox;
+  public MainPanel (int width, int height)
+  {
+    setSize (width, height);
+    //setBackgroundColor (Color.RED);
+    JLabel titleLabel = new JLabel ("Creatinine Clearance Calculator");
+    JLabel weightLabel = new JLabel ("Weight: ");
+    JLabel sexLabel = new JLabel ("Sex: ");
+    JLabel ageLabel = new JLabel ("Age: ");
+    JLabel creatinineLabel = new JLabel ("Creatinine: ");
+    //restrict these to only accept numbers
+    weightField = new JTextField (10);
+    ageField = new JTextField (10);
+    creatinineField = new JTextField (10);
+    //Fill in with options
+    weightBox = new JComboBox ();
+    sexBox = new JComboBox ();
+    creatinineBox = new JComboBox ();
+    JButton calcButton = new JButton ("Calculate");
+    calcButton.addActionListener (this);
+    
+  }
+  
+  
+  
+  public void actionPerformed (ActionEvent ae)
+  {
+    String a = ae.getActionCommand();
+    if (a.equals ("Calculate")){
+      //calculate
+    }
+  }
+  
+  public static final int EMPTY_DATA = -1;
+  public static final int STRING_DATA = -2;
+  public static final int BAD_DATA = -3;
+  public int[] checkData ()
+  {
+    int [] status = new int [3];
+    String weightText = weightField.getText();
+    String ageText = ageField.getText();
+    String creatinineText = creatinineField.getText();
+    status [0] = checkField (weightText, WEIGHT);
+    status [1] = checkField (ageText, AGE);
+    status [2] = checkField (creatinineText, CREATININE);
+    return status;    
+  }
+  
+  public static final int WEIGHT = 1;
+  public static final int AGE = 2;
+  public static final int CREATININE = 3;
+  
+  public int checkField (String text, int field)
+  {
+    if (text.equals ("") || text.equals (null)){
+      return EMPTY_DATA;
+    }
+    else if (Calc.isInteger (text) == false){
+      return STRING_DATA;
+    }
+    else{
+      int data = Integer.parseInt (text);
+      if (field == WEIGHT && (data >= 140 || data <= 0)){
+        return BAD_DATA;
+      }
+      else{
+        return Calc.convert (data, field);
+      }
+    }
+  }
+}

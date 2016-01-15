@@ -1,0 +1,16 @@
+public class Calc
+{
+ public Calc()
+ {
+ }
+ 
+ public static int convert (int data, int field)
+ {
+   return 0;
+ }
+ 
+ public static boolean isInteger (String text)
+ {
+   return false;
+ }
+}
